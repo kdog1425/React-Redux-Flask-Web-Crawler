@@ -1,19 +1,6 @@
 /* eslint camelcase: 0 */
-import vis from 'vis'
-
-export function drawGraph(graph) {
-    if (typeof(window.s) !== 'undefined'){
-        window.s.setData(graph);
-        window.s.redraw();
-        return;
-    }
-
-    var container = document.getElementById('sigma-container');
-    var options = {};
-    window.s = new vis.Network(container, graph, options);
-}
-
 export function prepareGraph(results) {
+    if (typeof(results) == 'undefined') return {};
     var nodes = results.nodes;
     var edges = results.edges;
     for (var i in nodes) {
@@ -26,6 +13,5 @@ export function prepareGraph(results) {
         edges[i].to = edges[i].target.toString();
     }
     var graph = {nodes: nodes, edges: edges};
-    drawGraph(graph);
     return graph;
 }

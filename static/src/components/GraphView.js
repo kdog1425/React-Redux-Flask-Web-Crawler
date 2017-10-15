@@ -3,6 +3,9 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { fetchGraphData } from '../actions/data';
+import { prepareGraph } from '../utils/graph_vis_functions';
+import Graph from 'react-graph-vis';
+
 
 class GraphView extends React.Component {
 
@@ -10,58 +13,66 @@ class GraphView extends React.Component {
         super(props);
         this.state = {
             'timeout': null,
+            'options': {
+                layout: {
+                    hierarchical: true
+                },
+                nodes: {
+                    color: "#16c9e0"
+                }
+            },
+            'events': {
+                select: function(event) {
+                    var { nodes, edges } = event;
+                }
+            },
+            'timeout': 
+                setInterval(() => {
+                  const crawlerId = this.props.crawlerId; 
+                  this.props.fetchGraph(crawlerId);     
+                  console.log(this.props.graph);
+                }, 2000),
         }
-        this.fetchGraph = this.fetchGraph.bind(this);
+        //this.fetchGraph = this.fetchGraph.bind(this);
+            // Toggle the state every second
 
-    }
-
-    componentWillReceiveProps(nextProps){
-        if (nextProps.crawlerId != this.props.crawlerId){
-            clearTimeout(this.state.timeout);
-        }
-    }
-
-    componentWillMount() {
-        if (this.state.timeout){
-            clearTimeout(this.state.timeout);
-        }
-        this.fetchGraph(this.props.crawlerId);
     }
 
     componentWillUnmount() {
-        clearTimeout(this.state.timeout);
+        if (this.state.timeout){
+            clearTimeout(this.state.timeout);
+        }
     }
 
-    fetchGraph() {
-        const crawlerId = this.props.crawlerId;
-        this.setState({'timeout' : setTimeout(() => {
-            console.log(' **** fetching crawlerId [' + crawlerId + '] ****');
-            this.props.fetchGraph(crawlerId);
-            this.fetchGraph(crawlerId);
-        }, 3000)});
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.crawlerId != this.props.crawlerId){
+            clearInterval(this.state.timeout);
+            this.setState({'timeout':setInterval(() => {
+                  const crawlerId = this.props.crawlerId; 
+                  this.fetchGraph(crawlerId);
+                  this.props.fetchGraph(crawlerId);     
+                  console.log(this.props.graph);
+                }, 2000)});
+        }
     }
 
     render() {
         return (
-            <div id="sigma-container"
-             style={{'width':'80%',
-                    'height':'80%',
-                    'margin':'0 auto',
-                    'textAlign':'left',
-                    'backgroundColor':'black'}}
-            />
+            <Graph graph={this.props.graph} options={this.state.options} events={this.state.events}/>
         )
     }
 
 }
 
 GraphView.propTypes = {
-  crawlerId: PropTypes.string
+  crawlerId: PropTypes.string,
+  graph: PropTypes.object
 };
 
 const mapStateToProps = state => {
   return {
     crawlerId: state.data.crawlerId,
+    graph: state.data.graph
   }
 }
 

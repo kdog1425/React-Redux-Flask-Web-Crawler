@@ -15,6 +15,7 @@ class DroCrawler():
         self.logger = logging.getLogger(__name__)
         self.logger = None
         self.crawlerId = None
+        self.fanout = CrawlerConfig.FANOUT
         try:
             # add crawler to db
             newCrawler = Crawler(definedDepth=3,
@@ -42,17 +43,15 @@ class DroCrawler():
         service.start()
 
     def _crawl(self, rootUrl=None, depthLimit=CrawlerConfig.DEPTH, currentDepth=0):
+        currentDepth += 1
+        if currentDepth >= depthLimit:
+            return
         logger = self.logger
         if rootUrl is None:
             rootUrl = self.rootUrl
         fromNode = db.session.query(Node).filter(Node.url == rootUrl) \
                                          .filter(Node.crawlerId == self.crawlerId) \
                                          .first()
-
-        if currentDepth >= depthLimit:
-            return
-        logger.info('current depth: ' + str(currentDepth))
-        currentDepth += 1
 
         # parse page data for more urls
         urls = self._parse(url=rootUrl)
@@ -66,7 +65,7 @@ class DroCrawler():
 
             # add record of neighbor node
             try:
-                newNode = Node(url=url, level=currentDepth, crawlerId=self.crawlerId)
+                newNode = Node(url=url, level=fromNode.level+1, crawlerId=self.crawlerId)
                 db.session.add(newNode)
                 db.session.commit()
             except Exception as e:
@@ -112,7 +111,7 @@ class DroCrawler():
                 if not href.startswith('http'):
                     continue
                 hrefList.append(href)
-            hrefList = hrefList[:5]
+            hrefList = hrefList[:self.fanout]
         except Exception as e:
             logger.error(str(e))
         return hrefList

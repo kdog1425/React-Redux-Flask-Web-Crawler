@@ -53,7 +53,6 @@ export function fetch_graph(crawlerId) {
 
 export function new_crawler(rootUrl, token) {
     if (rootUrl === 'undefined') return;
-    debugger;
     return axios.get('http://localhost:5000/api/crawler/?rootUrl=' + rootUrl,
         tokenConfig(token));
 }

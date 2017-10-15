@@ -26,15 +26,16 @@ export default createReducer(initialState, {
         Object.assign({}, state, {
             isFetching: true,
         }),
-    [RECEIVE_GRAPH_DATA]: (state, payload) =>
+    [RECEIVE_GRAPH_DATA]: (state, payload) => 
         Object.assign({}, state, {
             isFetching: false,
             loaded: true,
-            graph: prepareGraph(payload.data.data)
+            graph: prepareGraph(payload.data),
         }),
     [RECEIVE_CRAWLER_DATA]: (state, payload) =>
         Object.assign({}, state, {
-            crawlerId: payload.data.data.crawlerId
+            crawlerId: payload.data.crawlerId,
+            graph: {nodes: [], edges: []}
         }),
 });
 

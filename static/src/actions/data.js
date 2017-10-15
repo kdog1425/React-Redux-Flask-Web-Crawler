@@ -55,7 +55,7 @@ export function fetchGraphData(crawlerId) {
     return (dispatch) => {
         dispatch(fetchGraphDataRequest());
         fetch_graph(crawlerId).
-                then(response => dispatch(receiveGraphData(response)))
+                then(response => dispatch(receiveGraphData(response.data)))
     };
 }
 
@@ -73,7 +73,7 @@ export function submitCrawlerRequest(rootUrl) {
     return (dispatch) => {
 
         new_crawler(rootUrl).
-                then(response => dispatch(receiveCrawlerData(response))).
+                then(response => dispatch(receiveCrawlerData(response.data))).
                 then(() => browserHistory.push('/home'))
     };
 }
