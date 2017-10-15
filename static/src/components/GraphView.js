@@ -12,7 +12,6 @@ class GraphView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            'timeout': null,
             'options': {
                 layout: {
                     hierarchical: true
@@ -50,6 +49,10 @@ class GraphView extends React.Component {
                   console.log(this.props.graph);
                 }, 2000)});
         }
+        
+        if (!nextProps.isCrawlerWorking) {
+            clearInterval(this.state.timeout);
+        }
     }
 
     render() {
@@ -65,13 +68,15 @@ class GraphView extends React.Component {
 
 GraphView.propTypes = {
   crawlerId: PropTypes.string,
-  graph: PropTypes.object
+  graph: PropTypes.object,
+  isCrawlerWorking: PropTypes.boolean,
 };
 
 const mapStateToProps = state => {
   return {
     crawlerId: state.data.crawlerId,
-    graph: state.data.graph
+    graph: state.data.graph,
+    isCrawlerWorking: state.data.isCrawlerWorking
   }
 }
 

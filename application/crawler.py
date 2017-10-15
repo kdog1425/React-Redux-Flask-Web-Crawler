@@ -38,9 +38,10 @@ class DroCrawler():
             self.logger.error("Could not add crawler to db")
 
     def startCrawl(self):
-        service = multiprocessing.Process(name='crawler_' + str(self.crawlerId),\
+        service = multiprocessing.Process(name='crawler_' + str(self.crawlerId), \
                                          target=self._crawl)
         service.start()
+        return service
 
     def _crawl(self, rootUrl=None, depthLimit=CrawlerConfig.DEPTH, currentDepth=0):
         """

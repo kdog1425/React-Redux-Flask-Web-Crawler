@@ -9,6 +9,7 @@ const initialState = {
     loaded: false,
     graph: {},
     crawlerId: "-1",
+    isCrawlerWorking: false,
 };
 
 export default createReducer(initialState, {
@@ -28,7 +29,8 @@ export default createReducer(initialState, {
         }),
     [RECEIVE_GRAPH_DATA]: (state, payload) => 
         Object.assign({}, state, {
-            isFetching: false,
+            ifFetching: false,
+            isCrawlerWorking: payload.data.isAlive,
             loaded: true,
             graph: prepareGraph(payload.data),
         }),

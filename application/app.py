@@ -9,6 +9,8 @@ from flask_cors import *
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
+crawlerPool = {}
+
 
 @app.route('/', methods=['GET'])
 def index():
@@ -30,7 +32,8 @@ def new_crawler():
     logger.info('handle request to crawl [' + rootUrl + ']')
     try: 
         crawler = DroCrawler(rootUrl)
-        crawler.startCrawl()
+        crawlerProcess = crawler.startCrawl()
+        crawlerPool[str(crawler.crawlerId)] = crawlerProcess
     except Exception as e:
         logger.error(str(e))
         return jsonify({'error':'Something went wrong'}), 500
@@ -40,7 +43,7 @@ def new_crawler():
 
 @app.route("/api/crawler/<id>", methods=["GET"])
 @cross_origin()
-def get_crawler(id):
+def get_graph(id):
     logger.info('handle request to get crawler id [' + id + ']')
     edges = db.session.query(Edge).filter(Edge.crawlerId==id).all()
     nodeIds = set()
@@ -55,8 +58,15 @@ def get_crawler(id):
     for nodeId in nodeIds:
         node = db.session.query(Node).filter(Node.id==nodeId).one()
         nodes.append(node.as_dict())
-    res_edges = [e.as_dict() for e in edges]
-    return jsonify(edges=res_edges, nodes=nodes)
+    edges = [e.as_dict() for e in edges]
+    isAlive = False
+    try:
+        isAlive = crawlerPool[id].is_alive()
+    except Exception as e:
+        isAlive = False
+    if not isAlive and id in crawlerPool:
+        del crawlerPool[id]
+    return jsonify(edges=edges, nodes=nodes, isAlive=isAlive)
 
 @app.route("/api/user", methods=["GET"])
 @requires_auth
