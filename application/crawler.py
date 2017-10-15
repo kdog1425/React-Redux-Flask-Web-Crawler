@@ -77,11 +77,12 @@ class DroCrawler():
                 logger.error(str(e))
                 toNode = None
 
-            # add edge
             if not toNode:
                 toNode = db.session.query(Node).filter(Node.url == url) \
                                             .filter(Node.crawlerId == self.crawlerId) \
                                             .first()
+            
+            # add edge from this link to parent
             try:
                 newEdge = Edge(target=toNode.id, source=fromNode.id, \
                                crawlerId=self.crawlerId)
