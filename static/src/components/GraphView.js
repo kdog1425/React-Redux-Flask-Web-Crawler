@@ -30,7 +30,7 @@ class GraphView extends React.Component {
                   const crawlerId = this.props.crawlerId; 
                   this.props.fetchGraph(crawlerId);     
                   console.log(this.props.graph);
-                }, 300),
+                }, 1000),
         }
     }
 
