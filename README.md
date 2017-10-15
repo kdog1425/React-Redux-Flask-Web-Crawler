@@ -68,5 +68,5 @@ $ npm start
 Open your browser to http://localhost:3000/home 
 
 
-![ScreenShot](https://raw.github.com/kdog1425/React-Redux-Flask/master/web-crawler-screenshot.png)
+![ScreenShot](https://raw.github.com/kdog1425/React-Redux-Flask-Web-Crawler/master/web-crawler-screenshot.png)
 
