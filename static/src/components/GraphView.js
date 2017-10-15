@@ -33,9 +33,6 @@ class GraphView extends React.Component {
                   console.log(this.props.graph);
                 }, 2000),
         }
-        //this.fetchGraph = this.fetchGraph.bind(this);
-            // Toggle the state every second
-
     }
 
     componentWillUnmount() {
@@ -49,7 +46,6 @@ class GraphView extends React.Component {
             clearInterval(this.state.timeout);
             this.setState({'timeout':setInterval(() => {
                   const crawlerId = this.props.crawlerId; 
-                  this.fetchGraph(crawlerId);
                   this.props.fetchGraph(crawlerId);     
                   console.log(this.props.graph);
                 }, 2000)});
@@ -58,7 +54,10 @@ class GraphView extends React.Component {
 
     render() {
         return (
-            <Graph graph={this.props.graph} options={this.state.options} events={this.state.events}/>
+            <Graph graph={this.props.graph} 
+              options={this.state.options} 
+              events={this.state.events}
+            />
         )
     }
 
