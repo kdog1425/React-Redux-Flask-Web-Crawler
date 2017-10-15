@@ -6,7 +6,7 @@ from models import Node, Edge, Crawler
 from index import db
 import multiprocessing
 
-logging.basicConfig(level=logging.CRITICAL)
+logging.basicConfig(level=logging.DEBUG)
 
 class DroCrawler():
     def __init__(self, rootUrl):

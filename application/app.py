@@ -7,7 +7,7 @@ import logging, json
 from crawler import DroCrawler
 from flask_cors import *
 
-logging.basicConfig(level=logging.CRITICAL)
+logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 crawlerPool = {}
 
