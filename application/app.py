@@ -59,7 +59,6 @@ def get_graph(id):
         node = db.session.query(Node).filter(Node.id==nodeId).one()
         nodes.append(node.as_dict())
     edges = [e.as_dict() for e in edges]
-    isAlive = False
     try:
         isAlive = crawlerPool[id].is_alive()
     except Exception as e:
