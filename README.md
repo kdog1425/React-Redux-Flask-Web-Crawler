@@ -1,6 +1,6 @@
 # React-Redux-Flask-Web-Crawler #
 
-Based on React-Redux-Flask by 
+Based on React-Redux-Flask by ternyak
 
 * Python 2.7+ or 3.x
 * Pytest
