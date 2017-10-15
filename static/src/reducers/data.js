@@ -1,6 +1,7 @@
 import { RECEIVE_PROTECTED_DATA, FETCH_PROTECTED_DATA_REQUEST,  } from '../constants';
 import { RECEIVE_GRAPH_DATA, FETCH_GRAPH_DATA_REQUEST, RECEIVE_CRAWLER_DATA } from '../constants';
 import { createReducer } from '../utils/misc';
+import vis from 'vis'
 
 const initialState = {
     data: null,

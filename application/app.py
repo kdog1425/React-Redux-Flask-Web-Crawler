@@ -7,7 +7,10 @@ import logging, json
 from crawler import DroCrawler
 from flask_cors import *
 
+
+app.logger.setLevel(logging.DEBUG)
 logging.basicConfig()
+logger = logging.getLogger(__name__)
 
 @app.route('/', methods=['GET'])
 def index():
@@ -71,9 +74,8 @@ def is_token_valid():
 @app.route("/api/crawler/", methods=["GET"])
 @cross_origin()
 def new_crawler():
-    logger = logging.getLogger(__name__)
     rootUrl = request.args.get('rootUrl', '')
-    print '*********', rootUrl
+    logger.info(rootUrl)
     if rootUrl is None or rootUrl is '':
         return jsonify(message='Must include <rootUrl> param!'), 400
     logger.info('handle request to crawl [' + rootUrl + ']')
@@ -86,7 +88,6 @@ def new_crawler():
 @app.route("/api/crawler/<id>", methods=["GET"])
 @cross_origin()
 def get_crawler(id):
-    logger = logging.getLogger(__name__)
     logger.info('handle request to get crawler id [' + id + ']')
     edges = db.session.query(Edge).filter(Edge.crawlerId==id).all()
     nodeIds = set()

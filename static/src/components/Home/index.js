@@ -1,13 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import GraphView from '../Graphview.js';
+import GraphView from '../GraphView.js';
 
 class Home extends React.Component {
 
     constructor(props) {
         super(props);
     }
-
 
     render() {
         return (

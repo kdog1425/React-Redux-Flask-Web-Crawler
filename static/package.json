@@ -116,5 +116,7 @@
     "webpack-merge": "^1.0.2",
     "yargs": "^6.5.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "vis": "^4.21.0"
+  }
 }
