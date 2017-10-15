@@ -6,8 +6,7 @@ from models import Node, Edge, Crawler
 from index import db
 import multiprocessing
 
-logging.basicConfig()
-
+logging.basicConfig(level=logging.DEBUG)
 
 class DroCrawler():
     def __init__(self, rootUrl):
@@ -38,7 +37,8 @@ class DroCrawler():
             self.logger.error("Could not add crawler to db")
 
     def startCrawl(self):
-        service = multiprocessing.Process(name='crawler_' + str(self.crawlerId), target=self._crawl)
+        service = multiprocessing.Process(name='crawler_' + str(self.crawlerId),\
+                                         target=self._crawl)
         service.start()
 
     def _crawl(self, rootUrl=None, depthLimit=CrawlerConfig.DEPTH, currentDepth=0):
@@ -59,7 +59,7 @@ class DroCrawler():
         if urls is None:
             return
 
-        # recurse with new urls
+        # process found links
         for url in urls:
             if url == rootUrl:
                 continue
@@ -78,7 +78,8 @@ class DroCrawler():
                                             .filter(Node.crawlerId == self.crawlerId) \
                                             .first()
             try:
-                newEdge = Edge(target=toNode.id, source=fromNode.id, crawlerId=self.crawlerId)
+                newEdge = Edge(target=toNode.id, source=fromNode.id, \
+                               crawlerId=self.crawlerId)
                 db.session.add(newEdge)
                 db.session.commit()
             except Exception as e:
@@ -90,6 +91,11 @@ class DroCrawler():
         return
 
     def _parse(self, url):
+        """
+        extracts links from html page
+        :param url: the url where the html to be parsed resides
+        :return : a list of urls 
+        """
         hrefList = []
         logger = self.logger
         logger.info('visiting [' + url + ']')

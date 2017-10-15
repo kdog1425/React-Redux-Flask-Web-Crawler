@@ -7,9 +7,7 @@ import logging, json
 from crawler import DroCrawler
 from flask_cors import *
 
-
-app.logger.setLevel(logging.DEBUG)
-logging.basicConfig()
+logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 @app.route('/', methods=['GET'])
@@ -21,6 +19,44 @@ def index():
 def any_root_path(path):
     return render_template('index.html')
 
+
+@app.route("/api/crawler/", methods=["GET"])
+@cross_origin()
+def new_crawler():
+    rootUrl = request.args.get('rootUrl', '')
+    logger.info(rootUrl)
+    if rootUrl is None or rootUrl is '':
+        return jsonify(message='Must include <rootUrl> param!'), 400
+    logger.info('handle request to crawl [' + rootUrl + ']')
+    try: 
+        crawler = DroCrawler(rootUrl)
+        crawler.startCrawl()
+    except Exception as e:
+        logger.error(str(e))
+        return jsonify({'error':'Something went wrong'}), 500
+    return jsonify({'crawlerId': str(crawler.crawlerId),
+                    'rootUrl': crawler.rootUrl})
+
+
+@app.route("/api/crawler/<id>", methods=["GET"])
+@cross_origin()
+def get_crawler(id):
+    logger.info('handle request to get crawler id [' + id + ']')
+    edges = db.session.query(Edge).filter(Edge.crawlerId==id).all()
+    nodeIds = set()
+    for e in edges:
+        fromNodeId = e.source
+        toNodeId = e.target
+        if fromNodeId not in nodeIds:
+            nodeIds.add(fromNodeId)
+        if toNodeId not in nodeIds:
+            nodeIds.add(toNodeId)
+    nodes = []
+    for nodeId in nodeIds:
+        node = db.session.query(Node).filter(Node.id==nodeId).one()
+        nodes.append(node.as_dict())
+    res_edges = [e.as_dict() for e in edges]
+    return jsonify(edges=res_edges, nodes=nodes)
 
 @app.route("/api/user", methods=["GET"])
 @requires_auth
@@ -70,37 +106,3 @@ def is_token_valid():
     else:
         return jsonify(token_is_valid=False), 403
 
-
-@app.route("/api/crawler/", methods=["GET"])
-@cross_origin()
-def new_crawler():
-    rootUrl = request.args.get('rootUrl', '')
-    logger.info(rootUrl)
-    if rootUrl is None or rootUrl is '':
-        return jsonify(message='Must include <rootUrl> param!'), 400
-    logger.info('handle request to crawl [' + rootUrl + ']')
-    crawler = DroCrawler(rootUrl)
-    crawler.startCrawl()
-    return jsonify({'crawlerId': str(crawler.crawlerId),
-                    'rootUrl': crawler.rootUrl})
-
-
-@app.route("/api/crawler/<id>", methods=["GET"])
-@cross_origin()
-def get_crawler(id):
-    logger.info('handle request to get crawler id [' + id + ']')
-    edges = db.session.query(Edge).filter(Edge.crawlerId==id).all()
-    nodeIds = set()
-    for e in edges:
-        fromNodeId = e.source
-        toNodeId = e.target
-        if fromNodeId not in nodeIds:
-            nodeIds.add(fromNodeId)
-        if toNodeId not in nodeIds:
-            nodeIds.add(toNodeId)
-    nodes = []
-    for nodeId in nodeIds:
-        node = db.session.query(Node).filter(Node.id==nodeId).one()
-        nodes.append(node.as_dict())
-    res_edges = [e.as_dict() for e in edges]
-    return jsonify(edges=res_edges, nodes=nodes)

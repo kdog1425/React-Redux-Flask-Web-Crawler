@@ -29,7 +29,6 @@ class GraphView extends React.Component {
     }
 
     componentWillUnmount() {
-        debugger;
         clearTimeout(this.state.timeout);
     }
 
@@ -57,13 +56,11 @@ class GraphView extends React.Component {
 }
 
 GraphView.propTypes = {
-  graph: PropTypes.object,
   crawlerId: PropTypes.string
 };
 
 const mapStateToProps = state => {
   return {
-    graph: state.data.graph,
     crawlerId: state.data.crawlerId,
   }
 }
