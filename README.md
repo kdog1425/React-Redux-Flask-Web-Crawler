@@ -1,6 +1,6 @@
 # React-Redux-Flask-Web-Crawler #
 
-Based on React-Redux-Flask by 
+Based on [React-Redux-Flask by ternyak](https://github.com/dternyak/React-Redux-Flask)
 
 * Python 2.7+ or 3.x
 * Pytest
@@ -43,12 +43,6 @@ $ python manage.py runserver
 
 If all goes well, you should see ```* Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)``` followed by a few more lines in the terminal.
 
-### Test Back-End
-
-```
-$ python test.py --cov-report=term --cov-report=html --cov=application/ tests/
-```
-
 
 ### Open another terminal window, and install Front-End Requirements
 ```
@@ -69,4 +63,6 @@ Open your browser to http://localhost:3000/home
 
 
 
+
+![ScreenShot](https://raw.github.com/kdog1425/React-Redux-Flask-Web-Crawler/master/web-crawler-screenshot.png)
 
