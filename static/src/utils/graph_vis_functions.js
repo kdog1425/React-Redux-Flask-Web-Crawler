@@ -3,7 +3,9 @@ import vis from 'vis'
 
 export function drawGraph(graph) {
     if (typeof(window.s) !== 'undefined'){
-        window.s = null;
+        window.s.setData(graph);
+        window.s.redraw();
+        return;
     }
 
     var container = document.getElementById('sigma-container');
