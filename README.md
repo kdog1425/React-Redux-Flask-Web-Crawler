@@ -69,4 +69,4 @@ Open your browser to http://localhost:3000/home
 
 
 
-[Alt text](./web-crawler-screenshot?raw=true "Parralel Crawling")
+[Alt text](./web-crawler-screenshot.png?raw=true "Parralel Crawling")
