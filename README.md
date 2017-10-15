@@ -15,53 +15,27 @@ Based on React-Redux-Flask by
 * Webpack
 
 
-### Create DB
+### Install Back-End Requirements 
+```
+$ sudo pip install -r requirements.txt
+```
 
+
+### Create DB
+```
 $ export DATABASE_URL="sqlite:///your.db"
 ```
-(More about connection strings in this [flask config guide](http://flask-sqlalchemy.pocoo.org/2.1/config/).)
+
+For example, I use: 
+```
+$ export DATABASE_URL=sqlite:////Users/khenp/React-Redux-Flask-Web-Crawler/crawl.db
+```
+
 ```
 $ python manage.py create_db
 ```
 
-
-### Install Front-End Requirements
-```sh
-$ cd static
-$ npm install
-```
-
 ### Run Back-End
-
-```sh
-$ python manage.py runserver
-```
-
-### Test Back-End
-
-```sh
-$ python test.py --cov-report=term --cov-report=html --cov=application/ tests/
-```
-
-### Build Front-End
-
-```sh
-$ npm run build:production
-```
-
-
-### Run Front-End
-
-```sh
-$ cd static
-$ npm start
-```
-
-
-```
-$ sudo pip install flask flask_script flask_migrate flask_bcrypt 
-```
-4. Run Back-End
 
 ```
 $ python manage.py runserver
@@ -69,15 +43,29 @@ $ python manage.py runserver
 
 If all goes well, you should see ```* Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)``` followed by a few more lines in the terminal.
 
-5. open a new tab to the same directory and run the front end
+### Test Back-End
 
+```
+$ python test.py --cov-report=term --cov-report=html --cov=application/ tests/
+```
+
+
+### Open another terminal window, and install Front-End Requirements
 ```
 $ cd static
 $ npm install
+```
+
+
+### Run Front-End
+
+```
+$ cd static
 $ npm start
 ```
 
-6. open your browser to http://localhost:3000/home 
+
+Open your browser to http://localhost:3000/home 
 
 
 
