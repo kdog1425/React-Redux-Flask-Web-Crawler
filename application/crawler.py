@@ -18,7 +18,7 @@ class DroCrawler():
         self.fanout = CrawlerConfig.FANOUT
         try:
             # add crawler to db
-            newCrawler = Crawler(definedDepth=CrawlerConfig.Depth,
+            newCrawler = Crawler(definedDepth=CrawlerConfig.DEPTH,
                                  reachedDepth=0,
                                  linksFound=0,
                                  rootUrl=rootUrl)
