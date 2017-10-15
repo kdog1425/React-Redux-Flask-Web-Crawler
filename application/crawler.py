@@ -6,7 +6,7 @@ from models import Node, Edge, Crawler
 from index import db
 import multiprocessing
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.CRITICAL)
 
 class DroCrawler():
     def __init__(self, rootUrl):
@@ -69,15 +69,17 @@ class DroCrawler():
 
             # add record of neighbor node
             try:
-                newNode = Node(url=url, level=fromNode.level+1, crawlerId=self.crawlerId)
-                db.session.add(newNode)
+                toNode = Node(url=url, level=fromNode.level+1, crawlerId=self.crawlerId)
+                db.session.add(toNode)
                 db.session.commit()
             except Exception as e:
                 db.session.rollback()
                 logger.error(str(e))
+                toNode = None
 
             # add edge
-            toNode = db.session.query(Node).filter(Node.url == url) \
+            if not toNode:
+                toNode = db.session.query(Node).filter(Node.url == url) \
                                             .filter(Node.crawlerId == self.crawlerId) \
                                             .first()
             try:
