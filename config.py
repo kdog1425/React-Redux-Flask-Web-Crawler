@@ -21,5 +21,5 @@ class TestingConfig(object):
 
 class CrawlerConfig(object):
     """Crawler instances properties"""
-    DEPTH = 3
+    DEPTH = 5
     FANOUT = 3
