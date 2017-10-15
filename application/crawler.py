@@ -43,6 +43,9 @@ class DroCrawler():
         service.start()
 
     def _crawl(self, rootUrl=None, depthLimit=CrawlerConfig.DEPTH, currentDepth=0):
+        """
+        Called as a subprocess
+        """
         currentDepth += 1
         if currentDepth >= depthLimit:
             return
@@ -92,8 +95,8 @@ class DroCrawler():
     def _parse(self, url):
         """
         extracts links from html page
-        :param url: the url where the html to be parsed resides
-        :return : a list of urls 
+        :param str url: the url where the html to be parsed resides
+        :return: a list of urls 
         """
         hrefList = []
         logger = self.logger
