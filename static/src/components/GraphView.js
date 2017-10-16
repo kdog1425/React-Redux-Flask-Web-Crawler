@@ -29,9 +29,11 @@ class GraphView extends React.Component {
                 setInterval(() => {
                   const crawlerId = this.props.crawlerId; 
                   this.props.fetchGraph(crawlerId);     
-                  console.log(this.props.graph);
+                  this.state.network.fit(); 
                 }, 1000),
+            'network': null,
         }
+        this.setNetworkInstance = this.setNetworkInstance.bind(this);
     }
 
     componentWillUnmount() {
@@ -45,9 +47,9 @@ class GraphView extends React.Component {
             clearInterval(this.state.timeout);
             this.setState({'timeout':setInterval(() => {
                   const crawlerId = this.props.crawlerId; 
-                  this.props.fetchGraph(crawlerId);     
-                  console.log(this.props.graph);
-                }, 2000)});
+                  this.props.fetchGraph(crawlerId);
+                  this.state.network.fit();
+                }, 1000)});
         }
 
         if (!nextProps.isCrawlerWorking) {
@@ -55,11 +57,18 @@ class GraphView extends React.Component {
         }
     }
 
+    setNetworkInstance(nw) {
+        this.setState({
+            network: nw,
+        });
+    }
+
     render() {
         return (
             <Graph graph={this.props.graph} 
               options={this.state.options} 
               events={this.state.events}
+              getNetwork={this.setNetworkInstance}
             />
         )
     }
@@ -69,7 +78,7 @@ class GraphView extends React.Component {
 GraphView.propTypes = {
   crawlerId: PropTypes.string,
   graph: PropTypes.object,
-  isCrawlerWorking: PropTypes.boolean,
+  isCrawlerWorking: PropTypes.bool,
 };
 
 const mapStateToProps = state => {
