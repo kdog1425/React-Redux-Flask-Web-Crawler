@@ -36,7 +36,7 @@ app.get(/.*/, (req, res) => {
 
 
 const server = http.createServer(app);
-server.listen(process.env.PORT || 3000, () => {
+server.listen(process.env.PORT || 3001, () => {
     const address = server.address();
     console.log('Listening on: %j', address);
     console.log(' -> that probably means: http://localhost:%d', address.port);

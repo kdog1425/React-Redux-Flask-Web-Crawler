@@ -26,8 +26,7 @@ def any_root_path(path):
 @cross_origin()
 def new_crawler():
     rootUrl = request.args.get('rootUrl', '')
-    logger.info(rootUrl)
-    if rootUrl is None or rootUrl is '':
+    if rootUrl is None or rootUrl == '':
         return jsonify(message='Must include <rootUrl> param!'), 400
     logger.info('handle request to crawl [' + rootUrl + ']')
     try: 
