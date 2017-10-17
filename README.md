@@ -1,8 +1,8 @@
 # React-Redux-Flask-Web-Crawler #
 
-Based on [React-Redux-Flask by ternyak](https://github.com/dternyak/React-Redux-Flask)
+Based on [React-Redux-Flask by dternyak](https://github.com/dternyak/React-Redux-Flask)
 
-* Python 2.7+ or 3.x
+* Python 2.7
 * Pytest
 * Heroku
 * Flask
