@@ -45,14 +45,12 @@ export function data_about_user(token) {
 }
 
 export function fetch_graph(crawlerId) {
-    if (crawlerId === 'undefined') return;
-    var url = 'http://localhost:5000/api/crawler/' + crawlerId;
-    console.log(url);
+    if (typeof(crawlerId) === 'undefined') return;
     return axios.get('http://localhost:5000/api/crawler/' + crawlerId);
 }
 
 export function new_crawler(rootUrl, token) {
-    if (rootUrl === 'undefined') return;
+    if (typeof(rootUrl) === 'undefined') return;
     return axios.get('http://localhost:5000/api/crawler/?rootUrl=' + rootUrl,
         tokenConfig(token));
 }
