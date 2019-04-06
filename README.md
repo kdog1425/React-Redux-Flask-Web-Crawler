@@ -67,6 +67,11 @@ $ npm start
 Open your browser to http://localhost:3000/home 
 
 
+### Run a crawler
+
+Use the 'hamburger' menu on the top left side to start a new crawler.
+Input a url (including scheme) such as www.example.com
+
 
 
 ![ScreenShot](https://raw.github.com/kdog1425/React-Redux-Flask-Web-Crawler/master/web-crawler-screenshot.png)
