@@ -2,7 +2,7 @@
 
 Based on [React-Redux-Flask by dternyak](https://github.com/dternyak/React-Redux-Flask)
 
-* Python 2.7
+* Python 3
 * Pytest
 * Heroku
 * Flask
@@ -15,6 +15,12 @@ Based on [React-Redux-Flask by dternyak](https://github.com/dternyak/React-Redux
 * Webpack
 
 
+### Create environment
+```
+virtualenv .env -p python3
+source .env/bin/activate
+```
+
 ### Install Back-End Requirements 
 ```
 $ sudo pip install -r requirements.txt
@@ -26,7 +32,7 @@ $ sudo pip install -r requirements.txt
 $ export DATABASE_URL="sqlite:///your.db"
 ```
 
-For example, I use: 
+Select a db file path, preferably in the project folder. For example, I use: 
 ```
 $ export DATABASE_URL=sqlite:////Users/khenp/React-Redux-Flask-Web-Crawler/crawl.db
 ```
@@ -44,7 +50,7 @@ $ python manage.py runserver
 If all goes well, you should see ```* Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)``` followed by a few more lines in the terminal.
 
 
-### Open another terminal window, and install Front-End Requirements
+### Open another terminal window, and install Front-End Requirements. This can take a minute as node installs a few modules.
 ```
 $ cd static
 $ npm install
@@ -54,7 +60,6 @@ $ npm install
 ### Run Front-End
 
 ```
-$ cd static
 $ npm start
 ```
 
