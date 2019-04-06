@@ -43,7 +43,10 @@ $ python manage.py create_db
 
 ### Run Back-End
 
+Let's allow multithreading, and run the flask server.
+
 ```
+$ export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 $ python manage.py runserver
 ```
 
