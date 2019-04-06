@@ -1,8 +1,8 @@
 import logging
 from config import CrawlerConfig
 from bs4 import BeautifulSoup
-import urllib2
-from models import Node, Edge, Crawler
+import requests
+from .models import Node, Edge, Crawler
 from index import db
 import multiprocessing
 
@@ -106,8 +106,8 @@ class DroCrawler():
         logger = self.logger
         logger.info('visiting [' + url + ']')
         try:
-            conn = urllib2.urlopen(url)
-            html = conn.read()
+            conn = requests.get(url)
+            html = conn.text()
             soup = BeautifulSoup(html, "lxml")
             links = soup.find_all('a', href=True)
             foundCount = len(links)
